@@ -4,6 +4,7 @@
 4. Makefile (+test)
 5. Unit test, test automation, scalable tests
 6. Log to files or DB
+	- Add TimeStamp
 7. Webhooks
 8. Delayed delivery implementation
 9. Post submit form (Web)
