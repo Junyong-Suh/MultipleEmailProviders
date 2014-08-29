@@ -1,0 +1,6 @@
+{
+	"debug" : true,
+	"env" : "dev",
+	"payloadValidationVersion" : "v1",
+	"provider" : "mailgun"
+}

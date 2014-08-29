@@ -1,0 +1,35 @@
+{
+	"sendgrid" : {
+		"priority" : 1,
+		"name" : "sendgrid",
+		"endpoint" : "https://sendgrid.com/api",
+		"api_send" : "/mail.send.json",
+		"api_user" : "",
+		"api_key" : "",
+		"timeout" : 2,
+		"retry" : 3,
+		"log_sampling_rate" : 0.1
+	},
+	"mailgun" : {
+		"priority" : 2,
+		"name" : "mailgun",
+		"endpoint" : "https://api.mailgun.net/v2",
+		"api_send" : "/sandboxb49bdb76b1d04249984bc9b2b76b0aa0.mailgun.org/messages",
+		"api_user" : "",
+		"api_key" : "",
+		"timeout" : 2,
+		"retry" : 3,
+		"log_sampling_rate" : 0.1
+	},
+	"mandrill" : {
+		"priority" : 3,
+		"name" : "mandrill",
+		"endpoint" : "https://mandrillapp.com/api/1.0",
+		"api_send" : "/messages/send.json",
+		"api_user" : "",
+		"api_key" : "",
+		"timeout" : 2,
+		"retry" : 3,
+		"log_sampling_rate" : 0.1
+	}
+}
