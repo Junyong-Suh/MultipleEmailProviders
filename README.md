@@ -45,20 +45,20 @@ make deploy
 Python and Flask due to it's easiness to implement web service as well as it's used in Uber.
 
 ## Tradeoffs
-### You might have made
+#### You might have made
 1. Adding email providers in configuration - priority as index vs provider name as index
 - Implemented provider name as index to have better readability and less hassle when adding them
 2. Logging to a log file instead of database
 - Implemented logging to a file to have less failure points. Log in JSON format to be used in ETL in the future.
 - Database would get too large soon assuming we will handle tremendous traffics. If we'd like to store in the database, I would construct a) database logging web endpoint in seperate service and b) seperate database servers. So in this service, we would simply call that logging service and move on.
 
-### Anything you left out
+#### Anything you left out
 1. Test automation - keep adding on
 2. Keep a record of emails passing through the service in queryable form of data storage
 3. Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage.
 4. Delayed delivery for Mandrill and Mailgun
 
-### What you might do differently if you were to spend additional time on the project
+#### What you might do differently if you were to spend additional time on the project
 1. If we have dedicated client side SDK, I would add signatre and timestamp to authenticate only valid users to make requests to avoid abusing of the system.
 2. I would implement the service in multi-threaded system since there is HTTP I/O from 3rd party which takes a significant time to wait.
 3. I would look for a way to protect system from too many requests. a) track a list of ID and # of requests sent in the last 10 minutes and/or b) create a queue to hold the request to process, and response 408 Request Timeout if the request is hold for more than certain period. This may result in slow services in busy time but prevent the service to down.
