@@ -3,21 +3,22 @@ Class PayloadValidationHelper
 Purpose: Validate payload
 
 Author: Junyong Suh (junyongsuh@gmail.com)
-Last updated: August 28th, 2014
+Last updated: September 1st, 2014
 '''
-from configLoader import ConfigLoader
 import re
 
 class PayloadValidationHelper:
 
-	def __init__(self):
-		self.config = ConfigLoader()
+	def __init__(self, config):
+		self.config = config
 		self.payloadValidationSchema = self.config.getPayloadValidationConfig()
 
 	def _getValidatedPayload(self, request):
 		# 1-1. Check if the payload is valid JSON
 		# http://flask.pocoo.org/docs/0.10/api/#flask.Request.get_json
-		payload = request.get_json(force=False, silent=False, cache=True)
+		payload = self._getPayload(request)
+		if payload is None:
+			return None
 
 		# 1-2. Check if the payload has all keys and values
 		if not self._hasRequiredFields(payload):
@@ -29,17 +30,38 @@ class PayloadValidationHelper:
 
 		return payload
 
+	def _getPayload(self, request):
+		cotentType = self._getValueFromDict('content-type', request.headers)
+		cotentType = cotentType.lower()
+
+		if cotentType == "application/json":
+			payload = request.get_json(force=False, silent=False, cache=True)
+		elif request.form:
+			args = request.form
+			payload = {}
+			for key in args:
+				payload[key] = args[key]
+
+		return payload
+
 	def _hasRequiredFields(self, payload):
 		# 1-2. Check if the payload has all required keys and values
 		for keySchema in self.payloadValidationSchema:
-			# ToDo: "keyName" should be guaranteed
 			keyName = self._getValueFromDict("keyName", keySchema)
-			keyValue = payload[keyName]
+			if keyName is None:
+				return False
+
+			keyValue = self._getValueFromDict(keyName, payload)
+			if keyValue is None:
+				return False
+
 			for option in keySchema:
-				optionValue = keySchema[option]
+				optionValue = self._getValueFromDict(option, keySchema)
+				if optionValue is None:
+					return False
 				# required check
 				if option == "required" and self._str2bool(optionValue):
-					if not keyValue:
+					if keyValue is None:
 						# value missing
 						return False
 		return True

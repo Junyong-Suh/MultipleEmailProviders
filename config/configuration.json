@@ -2,5 +2,7 @@
 	"emailServiceVersion" : "v0.01",
 	"debug" : true,
 	"env" : "dev",
-	"payloadValidationVersion" : "v1"
+	"payloadValidationVersion" : "v1",
+	"logPath" : "./log/error_log",
+	"dbPath" : "./db/Log.db"
 }

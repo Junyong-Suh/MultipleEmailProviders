@@ -1,19 +1,11 @@
-1. README
-	○ How to install your application
-	○ Which language and/or microframework you chose and why
-	○ Trade­offs you might have made, anything you left out, or what you might do
-differently if you were to spend additional time on the project
-	○ Anything else you wish to include.
-2. Tech Design Doc (./docs)
-3. Refactor folder structure (./src)
-4. Makefile (+test)
-5. Unit test, test automation, scalable tests
+1. Unit test, test automation, scalable tests
 
-6. Log to files or DB
+2. Log to files or DB
 	- Add TimeStamp
-7. Webhooks
-8. Delayed delivery implementation
+3. Webhooks
+4. Delayed delivery implementation
 
-9. Post submit form (Web)
-10. Post submit form (iOS App)
-11. Add a version # for the service
+5. Makefile (+test)
+6. Refactor folder structure (./src)
+7. Post submit form (Web)
+8. Post submit form (iOS App)
