@@ -34,13 +34,13 @@ You should have proper api user and api keys in [email providers configuration f
 python emailService.py
 ```
 
-### Sample call
-'''
+#### Sample call
+```
 curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/json" -d @./test/sample.json -v
-'''
-'''
+```
+```
 curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/x-www-form-urlencoded" -d body="<h1>Hello</h1><p>from Uber</p>" -d from_name="Uber" -d from="no-reply@uber.com" -d to="junyongsuh@gmail.com" -d to_name="Junyong Suh" -d safeBody="Hellofrom Uber" -d subject="Your Monday evening trip with Uber" -v
-'''
+```
 
 ## Test (coming soon)
 ```
