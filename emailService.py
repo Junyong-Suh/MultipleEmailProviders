@@ -1,6 +1,7 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 from emailRequestHandler import EmailRequestHandler
 from configLoader import ConfigLoader
+import os.path
 app = Flask(__name__)
 
 # ToDo: Make a landing page
@@ -18,6 +19,13 @@ def email():
 	handler = EmailRequestHandler()
 	response = handler.process(request)
 	return response
+
+# For Dev purpose only
+@app.route("/test/", methods=['GET'])
+def test():
+	f = open('./test/test.html', 'r')
+	content = f.read()
+	return Response(content, mimetype="text/html")
 
 # Main Service
 if __name__ == "__main__":

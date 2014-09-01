@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        body {
+            text-align: center;
+            color: white;
+            font-family: Helvetica;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        p {
+            font-size: 24px;
+            color: black;
+        }
+        input {
+            padding: 12px;
+            border: 1;
+            font-size: 18px;
+        }
+        input[type="submit"] {
+          background: limegreen;
+          color: black;
+        }
+        input[type="button"] {
+          background: limegreen;
+          color: black;
+        }
+        textarea
+        {
+            border: 1;
+            padding: 12px;
+        }
+    </style>
+</head>
+<body>
+    <p>Just for testing</p>
+    <section id="requestBox">
+        <form action="../email/" method="POST">
+            <input type="email" id="to" placeholder="to email address" value="junyongsuh@gmail.com" size="50"> <br />
+            <input type="text" id="to_name" placeholder="to name" value="Junyong Suh" size="50"> <br />
+            <input type="email" id="from" placeholder="from email address" value="no-reply@uber.com" size="50"> <br />
+            <input type="text" id="from_name" placeholder="from name" value="Uber" size="50"> <br />
+            <input type="text" id="subject" placeholder="subject" value="Your Monday evening trip with Uber" size="50"> <br />
+            <input type="text" id="body" placeholder="body" value="<h1>Hello</h1><p>from Uber</p>" size="50"> <br />
+            <input type="submit">
+        </form>
+    </section>
+</body>

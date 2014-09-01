@@ -13,13 +13,13 @@ class ConfigLoader:
 		# general configuration
 		try:
 			path = "./config/configuration.json"
-			self.config = json.loads(open(path).read())
-			if self.config["env"]:
-				self.env = self.config["env"]
-			if self.config["provider"]:
-				self.provider = self.config["provider"]
-			if self.config["payloadValidationVersion"]:
-				self.payloadValidationVersion = self.config["payloadValidationVersion"]
+			config = json.loads(open(path).read())
+			if config["env"]:
+				self.env = config["env"]
+			if config["payloadValidationVersion"]:
+				self.payloadValidationVersion = config["payloadValidationVersion"]
+			if config["emailServiceVersion"]:
+				self.emailServiceVersion = config["emailServiceVersion"]
 		except (ValueError, KeyError, TypeError) as error:
 			print path +" is invalid"
 			print error
@@ -55,6 +55,9 @@ class ConfigLoader:
 			print error
 		except (IOError) as error:
 			print error
+
+	def getEmailServiceVersion(self):
+		return self.emailServiceVersion
 
 	def getPayloadValidationVersion(self):
 		return self.payloadValidationVersion

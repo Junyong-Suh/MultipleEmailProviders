@@ -1,6 +1,6 @@
 {
+	"emailServiceVersion" : "v0.01",
 	"debug" : true,
 	"env" : "dev",
-	"payloadValidationVersion" : "v1",
-	"provider" : "mailgun"
+	"payloadValidationVersion" : "v1"
 }

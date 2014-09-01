@@ -75,10 +75,7 @@ class EmailRequestHandler:
 	# ToDo: dump to a file
 	def _log(self, level, statusCode, response, payload):
 		env = self.config.getEnv()
-		if env == "dev":
-			print "["+ level +"] env=dev, "+ "statusCode="+ str(statusCode) +", response="+ response +", payload="+ json.dumps(payload)
-		elif env == "prod":
-			print "["+ level +"] env=prod, "+ "statusCode="+ str(statusCode) +", response="+ response +", payload="+ json.dumps(payload)
+		print "logType="+ level +", v="+ self.emailServiceVersion() +", env="+ env +", statusCode="+ str(statusCode) +", response="+ response +", payload="+ json.dumps(payload)
 
 	# ToDo: move this to proper util or helper class
 	def _getValueFromDict(self, key, payload):
