@@ -22,8 +22,8 @@ class ConfigLoader:
 					self.payloadValidationVersion = config["payloadValidationVersion"]
 				if config["emailServiceVersion"]:
 					self.emailServiceVersion = config["emailServiceVersion"]
-				if config["dbPath"]:
-					self.dbPath = config["dbPath"]
+				if config["splunkLogPath"]:
+					self.splunkLogPath = config["splunkLogPath"]
 				if config["logPath"]:
 					self.logPath = config["logPath"]
 				configurationIsLoaded = True
@@ -92,8 +92,8 @@ class ConfigLoader:
 	def getEmailServiceVersion(self):
 		return self.emailServiceVersion
 
-	def getDbPath(self):
-		return self.dbPath
+	def getSplunkLogPath(self):
+		return self.splunkLogPath
 
 	def getLogPath(self):
 		return self.logPath

@@ -64,10 +64,29 @@ Python and Flask due to it's easiness to implement web service as well as it's u
 - using log files instead of data storage
 3. Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage.
 4. Delayed delivery for Mandrill and Mailgun
+- To request relayed delivery, requires the parameter 'send_at', no further than 3 days from current time
+- Mailgun expects the following format for 'send_at'
+```
+Thu, 13 Oct 2011 18:02:00 GMT
+```
+- Mandrill expects the following format for 'send_at'
+```
+UTC timestamp in YYYY-MM-DD HH:MM:SS format
+```
+To do further is have one 'send_at' format from client then transform for each mail provider.
+
+* Constraints for Mandrill delayed delivery
+- Mandrill requires payment for delayed delivery
+```
+when this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the past, the message will be sent immediately. An additional fee applies for scheduled email, and this feature is only available to accounts with a positive balance.
+```
+- Mandrill returns this response when no positive balance.
+```
+{"status":"error","code":10,"name":"PaymentRequired","message":"Email scheduling is only available for accounts with a positive balance."}
+```
 
 #### What you might do differently if you were to spend additional time on the project
-1. If we have dedicated client side SDK, I would add signatre and timestamp to authenticate only valid users to make requests to avoid abusing of the system.
-2. I would implement the service in multi-threaded system since there is HTTP I/O from 3rd party which takes a significant time to wait.
-3. I would look for a way to protect system from too many requests. a) track a list of ID and # of requests sent in the last 10 minutes and/or b) create a queue to hold the request to process, and response 408 Request Timeout if the request is hold for more than certain period. This may result in slow services in busy time but prevent the service to down.
-4. I would construct a class for each mail provider to deal with specific providers
-5. Extend payloadValidationHandler to read static JSON schema file on local, and handle the validation as needed. In this way, adding new provider will be done by adding configuration.
+1. I would construct a class for each mail provider to deal with specific providers
+2. If we have dedicated client side SDK, I would add signatre and timestamp to authenticate only valid users to make requests to avoid abusing of the system.
+3. I would implement the service in multi-threaded system since there is HTTP I/O from 3rd party which takes a significant time to wait.
+4. I would look for a way to protect system from too many requests. a) track a list of ID and # of requests sent in the last 10 minutes and/or b) create a queue to hold the request to process, and response 408 Request Timeout if the request is hold for more than certain period. This may result in slow services in busy time but prevent the service to down.

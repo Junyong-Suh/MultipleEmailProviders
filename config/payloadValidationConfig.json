@@ -29,6 +29,11 @@
 			"keyName": "body",
 			"type": "string",
 			"required": "true"
+		},
+		{
+			"keyName": "send_at",
+			"type": "string",
+			"required": "false"
 		}
 	]
 }
