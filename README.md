@@ -106,3 +106,4 @@ Webhooks require to have running server to get POST requests from email provider
 * I would implement the service in multi-threaded system since there is HTTP I/O from 3rd party which takes a significant time to wait.
 * I would look for a way to protect system from too many requests. a) track a list of ID and # of requests sent in the last 10 minutes and/or b) create a queue to hold the request to process, and response 408 Request Timeout if the request is hold for more than certain period. This may result in slow services in busy time but prevent the service to down.
 * Spin up EC2 server with Elastic IP to implement webhook
+* Clean up the code, refactor, modulize, more Pythonic configuration reading and testing
