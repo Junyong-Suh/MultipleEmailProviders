@@ -23,12 +23,24 @@ class ProviderRequestHandler:
 		try:
 			providerName = self._getValueFromDict("name", providerInfo)
 			timeout = self._getValueFromDict("timeout", providerInfo)
-			if providerName == "mailgun":
-				api_user = self._getValueFromDict("api_user", providerInfo)
-				api_key = self._getValueFromDict("api_key", providerInfo)
-				r = requests.post(providerEndpoint, auth=(api_user, api_key), data=composedPayload, timeout=timeout)
+			supports_delayed_delivery = self._getValueFromDict("supports_delayed_delivery", providerInfo)
+
+			# only mandrill and mailgun support delayed delivery
+			if self._isDelayedDelivery(payload):
+				if self._str2bool(supports_delayed_delivery):
+					if providerName == "mailgun":
+						api_user = self._getValueFromDict("api_user", providerInfo)
+						api_key = self._getValueFromDict("api_key", providerInfo)
+						r = requests.post(providerEndpoint, auth=(api_user, api_key), data=composedPayload, timeout=timeout)
+					else:
+						r = requests.post(providerEndpoint, data=composedPayload, timeout=timeout)
 			else:
-				r = requests.post(providerEndpoint, data=composedPayload, timeout=timeout)
+				if providerName == "mailgun":
+					api_user = self._getValueFromDict("api_user", providerInfo)
+					api_key = self._getValueFromDict("api_key", providerInfo)
+					r = requests.post(providerEndpoint, auth=(api_user, api_key), data=composedPayload, timeout=timeout)
+				else:
+					r = requests.post(providerEndpoint, data=composedPayload, timeout=timeout)
 		except (requests.exceptions.Timeout) as error:
 			return 408, str(error)
 		except (requests.exceptions.InvalidSchema, requires.exceptions.SSLError) as error:
@@ -69,6 +81,10 @@ class ProviderRequestHandler:
 			composedPayload["html"] = self._getValueFromDict("body", payload)
 			composedPayload["text"] = self._getValueFromDict("safeBody", payload)
 			composedPayload["from"] = self._getValueFromDict("from_name", payload) + " <"+ self._getValueFromDict("from", payload) + ">"
+
+			send_at = self._getValueFromDict("send_at", payload)
+			if send_at:
+				composedPayload["o:deliverytime"] = send_at
 			return composedPayload
 		elif providerName == "mandrill":
 			# credentials
@@ -89,9 +105,19 @@ class ProviderRequestHandler:
 			composedPayload["message"]["to"][0]["type"] = "to"
 			composedPayload["message"]["headers"] = {}
 			composedPayload["message"]["headers"]["Reply-To"] = self._getValueFromDict("from", payload)
+			send_at = self._getValueFromDict("send_at", payload)
+			if send_at:
+				composedPayload["o:deliverytime"] = send_at
 			return json.dumps(composedPayload)
 		else:
 			return None
+
+	def _isDelayedDelivery(self, payload):
+		return self._getValueFromDict("send_at", payload)
+
+	# ToDo: move this to proper util or helper class
+	def _str2bool(self, v):
+		return v.lower() in ("yes", "true", "t", "1")
 
 	# ToDo: move this to proper util or helper class
 	def _getValueFromDict(self, key, payload):

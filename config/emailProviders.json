@@ -6,6 +6,7 @@
 		"api_send" : "/mail.send.json",
 		"api_user" : "",
 		"api_key" : "",
+		"supports_delayed_delivery" : "false",
 		"timeout" : 2,
 		"retry" : 3,
 		"log_sampling_rate" : 0.1
@@ -17,6 +18,7 @@
 		"api_send" : "/sandboxb49bdb76b1d04249984bc9b2b76b0aa0.mailgun.org/messages",
 		"api_user" : "",
 		"api_key" : "",
+		"supports_delayed_delivery" : "true",
 		"timeout" : 2,
 		"retry" : 3,
 		"log_sampling_rate" : 0.1
@@ -28,6 +30,7 @@
 		"api_send" : "/messages/send.json",
 		"api_user" : "",
 		"api_key" : "",
+		"supports_delayed_delivery" : "true",
 		"timeout" : 2,
 		"retry" : 3,
 		"log_sampling_rate" : 0.1

@@ -3,6 +3,6 @@
 	"debug" : true,
 	"env" : "dev",
 	"payloadValidationVersion" : "v1",
-	"logPath" : "./log/error_log",
-	"dbPath" : "./db/Log.db"
+	"logPath" : "./log/log",
+	"splunkLogPath" : "./log/splunk_log"
 }

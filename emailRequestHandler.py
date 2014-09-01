@@ -11,6 +11,8 @@ from flask import Response, Markup
 import logging
 import re
 import json
+import os.path
+import sys
 
 class EmailRequestHandler:
 
@@ -19,10 +21,20 @@ class EmailRequestHandler:
 		self.payloadValidationSchema = self.config.getPayloadValidationConfig()
 		# a list of provider info sorted by priority
 		self.providerConfigsInPriority = self.config.getProviderConfigsInPriority()
-		# ToDo: move this to proper util or helper class
-		logging.basicConfig(filename='./log/log', level=logging.INFO)
+		# Log
+		logFilePath = config.getLogPath()
+		logging.basicConfig(filename=logFilePath, level=logging.INFO)
+		# Splunk Log
+		splunkLogPath = config.getSplunkLogPath()
+		if os.path.isfile(splunkLogPath):
+			self.splunkLog = open(splunkLogPath, 'a')
+		else:
+			self.splunkLog = open(splunkLogPath, 'w')
 
 	def process(self, request):
+		# 0. Logs the request
+		self._logRequest(request)
+
 		# 1. Validates the payload
 		payloadValidationHelper = PayloadValidationHelper(self.config)
 		payload = payloadValidationHelper._getValidatedPayload(request)
@@ -74,15 +86,30 @@ class EmailRequestHandler:
 		return response
 
 	# ToDo: move this to proper util or helper class
+	def _logRequest(self, request):
+		level = "Log"
+		env = self.config.getEnv()
+		emailServiceVersion = self.config.getEmailServiceVersion()
+		ip = request.remote_addr
+		userAgent = request.headers["User-Agent"]
+
+		# unicode -> ascii
+		data = request.data
+		udata = data.decode("utf-8")
+		asciidata = udata.encode("ascii", "ignore")
+
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=request, ip="+ ip +", userAgent="+ userAgent +", data="+ asciidata
+		self.splunkLog.write(contents + "\n")
+
+	# ToDo: move this to proper util or helper class
 	def _log(self, level, statusCode, response, payload, request):
 		env = self.config.getEnv()
 		emailServiceVersion = self.config.getEmailServiceVersion()
 		ip = request.remote_addr
 		userAgent = request.headers["User-Agent"]
 
-		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ json.dumps(payload)
-		logging.info(contents)
-		print contents
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=response, statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ json.dumps(payload)
+		self.splunkLog.write(contents + "\n")
 
 	# ToDo: move this to proper util or helper class
 	def _getValueFromDict(self, key, payload):

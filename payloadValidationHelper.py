@@ -55,16 +55,13 @@ class PayloadValidationHelper:
 			if keyName is None:
 				return False
 
-			keyValue = self._getValueFromDict(keyName, payload)
-			if keyValue is None:
-				return False
-
 			for option in keySchema:
 				optionValue = self._getValueFromDict(option, keySchema)
 				if optionValue is None:
 					return False
 				# required check
 				if option == "required" and self._str2bool(optionValue):
+					keyValue = self._getValueFromDict(keyName, payload)
 					if keyValue is None:
 						# value missing
 						return False
@@ -77,9 +74,13 @@ class PayloadValidationHelper:
 
 		# check email types only
 		for keySchema in self.payloadValidationSchema:
-			# ToDo: "keyName" should be guaranteed
 			keyName = self._getValueFromDict("keyName", keySchema)
-			keyValue = payload[keyName]
+			keyValue = self._getValueFromDict(keyName, payload)
+			if keyValue is None:
+				continue
+			else:
+				keyValue = payload[keyName]
+
 			for option in keySchema:
 				optionValue = keySchema[option]
 				if option == "type" and optionValue == "email":
