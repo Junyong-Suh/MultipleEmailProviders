@@ -8,6 +8,7 @@ Last updated: September 1st, 2014
 from providerRequestHandler import ProviderRequestHandler
 from payloadValidationHelper import PayloadValidationHelper
 from flask import Response, Markup
+import logging
 import re
 import json
 
@@ -18,6 +19,8 @@ class EmailRequestHandler:
 		self.payloadValidationSchema = self.config.getPayloadValidationConfig()
 		# a list of provider info sorted by priority
 		self.providerConfigsInPriority = self.config.getProviderConfigsInPriority()
+		# ToDo: move this to proper util or helper class
+		logging.basicConfig(filename='./log/log', level=logging.INFO)
 
 	def process(self, request):
 		# 1. Validates the payload
@@ -71,14 +74,15 @@ class EmailRequestHandler:
 		return response
 
 	# ToDo: move this to proper util or helper class
-	# ToDo: dump to a file
 	def _log(self, level, statusCode, response, payload, request):
 		env = self.config.getEnv()
 		emailServiceVersion = self.config.getEmailServiceVersion()
 		ip = request.remote_addr
 		userAgent = request.headers["User-Agent"]
 
-		print "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ json.dumps(payload)
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ json.dumps(payload)
+		logging.info(contents)
+		print contents
 
 	# ToDo: move this to proper util or helper class
 	def _getValueFromDict(self, key, payload):

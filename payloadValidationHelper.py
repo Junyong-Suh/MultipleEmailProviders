@@ -34,11 +34,15 @@ class PayloadValidationHelper:
 		cotentType = self._getValueFromDict('content-type', request.headers)
 		cotentType = cotentType.lower()
 
+		payload = {}
 		if cotentType == "application/json":
 			payload = request.get_json(force=False, silent=False, cache=True)
 		elif request.form:
 			args = request.form
-			payload = {}
+			for key in args:
+				payload[key] = args[key]
+		elif request.args:
+			args = request.args
 			for key in args:
 				payload[key] = args[key]
 

@@ -34,14 +34,17 @@ You should have proper api user and api keys in [email providers configuration f
 python emailService.py
 ```
 
+### Sample call
+'''
+curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/json" -d @./test/sample.json -v
+'''
+'''
+curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/x-www-form-urlencoded" -d body="<h1>Hello</h1><p>from Uber</p>" -d from_name="Uber" -d from="no-reply@uber.com" -d to="junyongsuh@gmail.com" -d to_name="Junyong Suh" -d safeBody="Hellofrom Uber" -d subject="Your Monday evening trip with Uber" -v
+'''
+
 ## Test (coming soon)
 ```
 make test
-```
-
-## Deploy (coming soon)
-```
-make deploy
 ```
 
 ## Which language and/or microframework you chose and why
@@ -58,6 +61,7 @@ Python and Flask due to it's easiness to implement web service as well as it's u
 #### Anything you left out
 1. Test automation - keep adding on
 2. Keep a record of emails passing through the service in queryable form of data storage
+- using log files instead of data storage
 3. Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage.
 4. Delayed delivery for Mandrill and Mailgun
 
