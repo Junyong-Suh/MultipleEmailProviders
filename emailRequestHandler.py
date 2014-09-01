@@ -12,7 +12,6 @@ import logging
 import re
 import json
 import os.path
-import sys
 
 class EmailRequestHandler:
 

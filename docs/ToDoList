@@ -1,12 +1,7 @@
 1. Unit test, test automation, scalable tests
-
 2. Log to files or DB
 	-- logging (here)[https://docs.python.org/2/howto/logging.html]
 	-- logging error (here)[http://flask.pocoo.org/docs/0.10/errorhandling/]
 	-- sqlite3 (here)[http://flask.pocoo.org/docs/0.10/tutorial/] and (here)[http://flask.pocoo.org/docs/0.10/patterns/sqlite3/]
 	-- configuration handling (here)[http://flask.pocoo.org/docs/0.10/config/]
 3. Webhooks
-4. Delayed delivery implementation
-5. Makefile (+test)
-6. Refactor folder structure (./src)
-7. Post submit form (iOS App)
