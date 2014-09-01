@@ -4,6 +4,9 @@ MultipleEmailProviders
 ## Overview
 A service that abstraction between two (or more) different email service providers. This way, if one of the services goes down, you can quickly failover to a different provider without affecting your customers.
 
+## Technical Design Documentation
+Find it [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/docs/TechDesignDoc.md)
+
 ## Requirements
 1. Python v2.7.x
 2. Flask v0.10.0 or higher
