@@ -36,13 +36,23 @@ python emailService.py
 
 #### Sample call
 ```
-curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/json" -d @./test/sample.json -v
+curl -X POST http://127.0.0.1:5000/email/ \ 
+-H "Content-Type:application/json" \ 
+-d @./test/sample.json -v
 ```
 ```
-curl -X POST http://127.0.0.1:5000/email/ -H "Content-Type:application/x-www-form-urlencoded" -d body="<h1>Hello</h1><p>from Uber</p>" -d from_name="Uber" -d from="no-reply@uber.com" -d to="junyongsuh@gmail.com" -d to_name="Junyong Suh" -d safeBody="Hellofrom Uber" -d subject="Your Monday evening trip with Uber" -v
+curl -X POST http://127.0.0.1:5000/email/ \ 
+-H "Content-Type:application/x-www-form-urlencoded" \ 
+-d body="<h1>Hello</h1><p>from Uber</p>" \ 
+-d from_name="Uber" \ 
+-d from="no-reply@uber.com" \
+-d to="junyongsuh@gmail.com" \
+-d to_name="Junyong Suh" \
+-d safeBody="Hello from Uber" \
+-d subject="Your Monday evening trip with Uber" -v
 ```
 
-## Test (coming soon)
+## Test (to be implemented)
 ```
 make test
 ```
@@ -52,38 +62,34 @@ Python and Flask due to it's easiness to implement web service as well as it's u
 
 ## Tradeoffs
 #### You might have made
-1. Adding email providers in configuration - priority as index vs provider name as index
-- Implemented provider name as index to have better readability and less hassle when adding them
-2. Logging to a log file instead of database
-- Implemented logging to a file to have less failure points. Log in JSON format to be used in ETL in the future.
-- Database would get too large soon assuming we will handle tremendous traffics. If we'd like to store in the database, I would construct a) database logging web endpoint in seperate service and b) seperate database servers. So in this service, we would simply call that logging service and move on.
-
-#### Anything you left out
-1. Test automation - keep adding on
-2. Keep a record of emails passing through the service in queryable form of data storage
-- using log files instead of data storage
-3. Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage.
-4. Delayed delivery for Mandrill and Mailgun
-- To request relayed delivery, requires the parameter 'send_at', no further than 3 days from current time
-- Mailgun expects the following format for 'send_at'
+* Keep a record of emails passing through the service in queryable form of data storage - logging to a log file instead of database
+* Database would get too large soon assuming we will handle tremendous traffics. If we'd like to store in the database, I would construct a) database logging web endpoint in seperate service and b) seperate database servers. So in this service, we would simply call that logging service and move on.
+* Two log files - one for general log and the other one for Splunk to consume (key=value log)
+* Delayed delivery for Mandrill and Mailgun
+to request relayed delivery requires the parameter 'send_at', no further than 3 days from current time
+Mailgun expects the following format for 'send_at'
 ```
 Thu, 13 Oct 2011 18:02:00 GMT
 ```
-- Mandrill expects the following format for 'send_at'
+Mandrill expects the following format for 'send_at'
 ```
 UTC timestamp in YYYY-MM-DD HH:MM:SS format
 ```
 To do further is have one 'send_at' format from client then transform for each mail provider.
 
-* Constraints for Mandrill delayed delivery
-- Mandrill requires payment for delayed delivery
+Constraints for Mandrill delayed delivery
+Mandrill requires payment for delayed delivery
 ```
 when this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the past, the message will be sent immediately. An additional fee applies for scheduled email, and this feature is only available to accounts with a positive balance.
 ```
-- Mandrill returns this response when no positive balance.
+Mandrill returns this response when no positive balance.
 ```
 {"status":"error","code":10,"name":"PaymentRequired","message":"Email scheduling is only available for accounts with a positive balance."}
 ```
+
+#### Anything you left out
+1. Test automation - keep adding on
+2. Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage. 
 
 #### What you might do differently if you were to spend additional time on the project
 1. I would construct a class for each mail provider to deal with specific providers
