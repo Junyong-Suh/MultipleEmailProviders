@@ -1,0 +1,15 @@
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 06:10:18] "POST /email/ HTTP/1.1" 200 -
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 06:10:19] "POST /email/ HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/jsuh/jsuhTemp/90-personal/MultipleEmailProviders/emailRequestHandler.py', reloading
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 06:21:09] "POST /email/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 06:21:11] "GET /test/ HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/jsuh/jsuhTemp/90-personal/MultipleEmailProviders/emailRequestHandler.py', reloading
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 22:56:07] "POST /email/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 22:56:10] "GET /test/ HTTP/1.1" 200 -
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net
+INFO:werkzeug:127.0.0.1 - - [01/Sep/2014 23:07:37] "POST /email/ HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/jsuh/jsuhTemp/90-personal/MultipleEmailProviders/payloadValidationHelper.py', reloading
