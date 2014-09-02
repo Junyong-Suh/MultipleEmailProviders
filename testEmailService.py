@@ -88,21 +88,12 @@ class EmailServiceTestCase(unittest.TestCase):
 
 	def test_email(self):
 		pass
-	# 	rv = self.app.post('/email/')
-	# 	assert "405 Method Not Allowed" in rv.data
-	# 	rv = self.app.get('/email/')
-	# 	assert "405 Method Not Allowed" in rv.data
-	# 	rv = self.app.put('/email/')
-	# 	assert "405 Method Not Allowed" in rv.data
-	# 	rv = self.app.delete('/email/')
-	# 	assert "405 Method Not Allowed" in rv.data
 
 	'''
 	emailRequestHandler.py testing
 	'''
 
 	def test_email_request_handler(self):
-		h = EmailRequestHandler(self.config)
 		pass
 
 	'''
@@ -110,7 +101,6 @@ class EmailServiceTestCase(unittest.TestCase):
 	'''
 
 	def test_payload_validation_helper(self):
-		h = PayloadValidationHelper(self.config)
 		pass
 
 	'''
@@ -118,7 +108,6 @@ class EmailServiceTestCase(unittest.TestCase):
 	'''
 
 	def test_provider_request_handler(self):
-		h = ProviderRequestHandler()
 		pass
 
 if __name__ == '__main__':
