@@ -16,7 +16,7 @@ Find it [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master
 
 * Install Python v2.7 or higher - [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
-* Install pip (or something else if you would prefer) - [http://pip.readthedocs.org/en/latest/installing.html]
+* Install [pip](http://pip.readthedocs.org/en/latest/installing.html) (or something else if you would prefer)
 
 * Install Flask v0.10.x or higher
 
@@ -108,8 +108,10 @@ Python and Flask due to it's easiness to implement web service as well as it's u
 * Webhooks for Mandrill and Mailgun for email opens and click. Recieve those webhook POST requests and store that information in some form of data storage. -- Webhooks require to have running server to get POST requests from email providers. Would spin up EC2 server with Elastic IP to work on if I have more time.
 
 #### What you might do differently if you were to spend additional time on the project
-* I would construct a class for each mail provider to deal with specific providers
-* If we have dedicated client side SDK, I would add signatre and timestamp to authenticate only valid users to make requests to avoid abusing of the system.
+* I would spend more time on Flask to get familiar with app contexts and unit test
+* I would compare if [Flask configuration handling](http://flask.pocoo.org/docs/0.10/config/) makes more sence then have JSON format configuration file (probably would)
+* I would construct a class for each mail provider to deal with specific providers (for example, too messy [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/providerRequestHandler.py#L56)...)
+* If we have dedicated client side SDK, I would add signatre (sha1-ed secret key?) and timestamp to authenticate only valid users to make requests to avoid abusing of the system.
 * I would implement the service in multi-threaded system since there is HTTP I/O from 3rd party which takes a significant time to wait.
 * I would look for a way to protect system from too many requests. a) track a list of ID and # of requests sent in the last 10 minutes and/or b) create a queue to hold the request to process, and response 408 Request Timeout if the request is hold for more than certain period. This may result in slow services in busy time but prevent the service to down.
 * Spin up EC2 server with Elastic IP to implement webhook
