@@ -31,12 +31,13 @@ class EmailRequestHandler:
 			self.splunkLog = open(splunkLogPath, 'w')
 
 	def process(self, request):
+		self.payloadValidationHelper = PayloadValidationHelper(self.config)
+
 		# 0. Logs the request
 		self._logRequest(request)
 
 		# 1. Validates the payload
-		payloadValidationHelper = PayloadValidationHelper(self.config)
-		payload = payloadValidationHelper._getValidatedPayload(request)
+		payload = self.payloadValidationHelper._getValidatedPayload(request)
 		if not payload:
 			return self._responseFailure(400, "payload invalid.", payload, request)
 
@@ -92,12 +93,10 @@ class EmailRequestHandler:
 		ip = request.remote_addr
 		userAgent = request.headers["User-Agent"]
 
-		# unicode -> ascii
-		data = request.data
-		udata = data.decode("utf-8")
-		asciidata = udata.encode("ascii", "ignore")
-
-		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=request, ip="+ ip +", userAgent="+ userAgent +", data="+ asciidata
+		payload = self.payloadValidationHelper._getPayload(request)
+		data = json.dumps(payload)
+		asciidata = self._unicodeToAscii(data)
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=request, ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata
 		self.splunkLog.write(contents + "\n")
 
 	# ToDo: move this to proper util or helper class
@@ -106,9 +105,17 @@ class EmailRequestHandler:
 		emailServiceVersion = self.config.getEmailServiceVersion()
 		ip = request.remote_addr
 		userAgent = request.headers["User-Agent"]
+		data = json.dumps(payload)
+		asciidata = self._unicodeToAscii(data)
 
-		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=response, statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ json.dumps(payload)
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=response, statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata
 		self.splunkLog.write(contents + "\n")
+
+	# ToDo: move this to proper util or helper class
+	def _unicodeToAscii(self, data):
+		udata = data.decode("utf-8")
+		asciidata = udata.encode("ascii", "ignore")
+		return asciidata
 
 	# ToDo: move this to proper util or helper class
 	def _getValueFromDict(self, key, payload):
