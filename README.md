@@ -94,6 +94,8 @@ and this feature is only available to accounts with a positive balance.
 python testEmailService.py
 ```
 
+## About the project...
+
 #### Which language and/or microframework you chose and why
 Python and Flask due to it's easiness to implement web service as well as it's used in Uber. Although this is the first service / program that I wrote in Python other than scripts, had fun working with Python and Flask. (Of cource, a lot of headaches too!)
 
