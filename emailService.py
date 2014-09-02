@@ -18,23 +18,23 @@ def email():
 # For Dev purpose only
 @app.route("/test/", methods=['GET'])
 def test():
-	if config.getEnv() == "dev":
+	if app.config["ENV"] == "dev":
 		f = open('./test/test.html', 'r')
 		content = f.read()
 		return Response(content, status=200, mimetype="text/html")
 	else:
-		return Response("{\"message\": \"Page not found\"}", status=404)
+		return Response("{\"message\": \"Page not allowed to access\"}", status=404)
 
 # Main Service
 if __name__ == "__main__":
 	config = ConfigLoader()
 	if config.isLoaded():
 		# get environment
-		env = config.getEnv()
-		print "Environment: "+ env.upper()
-		if env == "prod":
+		app.config["ENV"] = config.getEnv()
+		print "Environment: "+ app.config["ENV"].upper()
+		if app.config["ENV"].lower() == "prod":
 			app.run()
-		elif env == "dev":
+		elif app.config["ENV"].lower() == "dev":
 			app.run(debug=True)
 	else:
 		print "Failed to load the config. Can't start the Service."
