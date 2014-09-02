@@ -33,7 +33,7 @@ if __name__ == "__main__":
 		app.config["ENV"] = config.getEnv()
 		print "Environment: "+ app.config["ENV"].upper()
 		if app.config["ENV"].lower() == "prod":
-			app.run()
+			app.run(host= '0.0.0.0')
 		elif app.config["ENV"].lower() == "dev":
 			app.run(debug=True)
 	else:
