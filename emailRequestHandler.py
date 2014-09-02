@@ -9,9 +9,9 @@ from providerRequestHandler import ProviderRequestHandler
 from payloadValidationHelper import PayloadValidationHelper
 from flask import Response, Markup
 import logging
-import re
 import json
 import os.path
+import time, datetime
 
 class EmailRequestHandler:
 
@@ -96,7 +96,10 @@ class EmailRequestHandler:
 		payload = self.payloadValidationHelper._getPayload(request)
 		data = json.dumps(payload)
 		asciidata = self._unicodeToAscii(data)
-		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=request, ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata
+		ts = time.time()
+		now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=request, ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata +", timeStamp="+ str(now)
 		self.splunkLog.write(contents + "\n")
 
 	# ToDo: move this to proper util or helper class
@@ -105,10 +108,13 @@ class EmailRequestHandler:
 		emailServiceVersion = self.config.getEmailServiceVersion()
 		ip = request.remote_addr
 		userAgent = request.headers["User-Agent"]
+
 		data = json.dumps(payload)
 		asciidata = self._unicodeToAscii(data)
+		ts = time.time()
+		now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=response, statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata
+		contents = "logType="+ level +", v="+ emailServiceVersion +", env="+ env +", type=response, statusCode="+ str(statusCode) +", response="+ response +", ip="+ ip +", userAgent="+ userAgent +", payload="+ asciidata +", timeStamp="+ str(now)
 		self.splunkLog.write(contents + "\n")
 
 	# ToDo: move this to proper util or helper class
