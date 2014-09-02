@@ -3,9 +3,10 @@ MultipleEmailProviders
 
 ## Overview
 A service abstraction between two (or more) different email service providers. This way, if one of the services goes down, you can quickly failover to a different provider without affecting your customers.
+Detailed specification can be found [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/docs/Specifications.md)
 
 ## Technical Design Documentation
-Find it [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/docs/TechDesignDoc.md)
+Please find it [here](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/docs/TechDesignDoc.md)
 
 ## Requirements
 1. Python v2.7.x
