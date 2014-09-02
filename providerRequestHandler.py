@@ -14,7 +14,7 @@ class ProviderRequestHandler:
 		# 3.1 compose payload for the provider
 		composedPayload = self._composePayload(payload, providerInfo)
 		if not composedPayload:
-			return 400, "failed to compose payload"
+			return 500, "failed to compose payload"
 		providerEndpoint = self._getProviderEndpoint(providerInfo)
 		if not providerEndpoint:
 			return 500, "unable to get provider endpoint"
@@ -44,7 +44,7 @@ class ProviderRequestHandler:
 		except (requests.exceptions.Timeout) as error:
 			return 408, str(error)
 		except (requests.exceptions.InvalidSchema, requires.exceptions.SSLError) as error:
-			return 500, str(error)
+			return 503, str(error)
 
 		# 3.3 return the result (status, text)
 		return r.status_code, r.text
