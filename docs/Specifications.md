@@ -35,7 +35,7 @@ Example Request Payload:
 	* Simple Send Documentation: https://mandrillapp.com/api/docs/messages.JSON.html#method­send
 
 ## Good to haves
-* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/config/emailProviders.json) Instead of relying on a configuration change for choosing which email provider to use, dynamically select a provider based on their error responses. For instance, if Mailgun started to timeout or was returning errors, automatically switch to Mandrill.
-* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/emailRequestHandler.py#L27) Keep a record of emails passing through your service in some queryable form of data storage.
-* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders#delayed-delivery-for-mandrill-and-mailgun) Both services offer delayed delivery. Implement a delivery date / time parameter for POST requests to your service.
-* Both Mandrill and Mailgun have webhooks for email opens and clicks. Implement endpoints on your service to receive those webhook POST requests and store that information in some form of data storage.
+* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/config/emailProviders.json) - Instead of relying on a configuration change for choosing which email provider to use, dynamically select a provider based on their error responses. For instance, if Mailgun started to timeout or was returning errors, automatically switch to Mandrill.
+* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders/blob/master/emailRequestHandler.py#L27) - Keep a record of emails passing through your service in some queryable form of data storage.
+* [Implemented](https://github.com/Junyong-Suh/MultipleEmailProviders#delayed-delivery-for-mandrill-and-mailgun) -  Both services offer delayed delivery. Implement a delivery date / time parameter for POST requests to your service.
+* Not implemented -Both Mandrill and Mailgun have webhooks for email opens and clicks. Implement endpoints on your service to receive those webhook POST requests and store that information in some form of data storage.
